@@ -90,9 +90,8 @@ class Game:
     def __init__(self, HumanPlayer, RandomPlayer):
         self.player1 = HumanPlayer
         self.player2 = RandomPlayer
-        self.count_win = 0
-        self.count_lose = 0
-        self.count_tie = 0
+        self.p1_score = 0
+        self.p2_score = 0
 
     def play_game(self, HumanMove, RandomPlayerMove):
         
