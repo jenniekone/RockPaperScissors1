@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Dec 17 17:33:01 2018
-@author: Jennie
-"""
-
 moves = ['rock', 'paper', 'scissors']
 
 import random
@@ -93,18 +87,19 @@ def beats(one, two):
 
 #Create game class
 class Game:
-    def __init__(self, HumanMove, RandomPlayerMove):
-        self.player1 = HumanMove
-        self.player2 = RandomPlayerMove
+    def __init__(self, HumanPlayer, RandomPlayer):
+        self.player1 = HumanPlayer
+        self.player2 = RandomPlayer
 
-    def play_round(self):
-        move1 = self.player1.move()
-        move2 = self.player2.move()
+    def play_round(self, HumanMove, RandomPlayerMove):
+        move1 = self.player1.move(HumanMove)
+        move2 = self.player2.move(RandomPlayerMove)
         print(f"Player 1: {move1}  Player 2: {move2}")
         self.player1.learn(move1, move2)
         self.player2.learn(move2, move1)
         
         
+    def score(self, player1, player2):
         
         if beats(player1, player2):
             print("HumanPlayer wins this round")
@@ -117,11 +112,11 @@ class Game:
             print("It's Tie, Play again!")
             print(f"Scores, HumanPlayer: {self.p1.score} RandomPlayer: {self.p2.score}")
 
-    def play_game(self):
+    def play_game(self, HumanMove, RandomPlayerMove):
         print("Game start!")
         for round in range(3):
             print(f"Round {round}:")
-            self.play_round()
+            self.play_round(HumanMove, RandomPlayerMove)
         print("Game over!")
 
         if self.player1.score > self.player2.score:
@@ -134,5 +129,5 @@ class Game:
 
 if __name__ == '__main__':
     game = Game(HumanPlayer(), RandomPlayer())
-    game.play_game()
+    game.play_game(HumanMove, RandomPlayerMove)
 
