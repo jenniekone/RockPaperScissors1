@@ -1,3 +1,4 @@
+
 moves = ['rock', 'paper', 'scissors']
 
 import random
@@ -41,6 +42,10 @@ class HumanPlayer:
         Player.__init__(self)
             
     def move(self, HumanMove):
+        HumanMove = input("'Rock', 'Paper', or 'Scissors' ")
+        #Detect invalid entry
+        while HumanMove != 1 and HumanMove != 2 and HumanMove != 3: 
+            print ("Choose betwen 'Rock', 'Paper', or 'Scissors' to start the game.")
         return HumanMove
       
         
@@ -90,35 +95,42 @@ class Game:
     def __init__(self, HumanPlayer, RandomPlayer):
         self.player1 = HumanPlayer
         self.player2 = RandomPlayer
-        self.p1_score = 0
-        self.p2_score = 0
+        self.player1_score = 0
+        self.player2_score = 0
 
-    def play_game(self, HumanMove, RandomPlayerMove):
-        
-        print("Game start!")
-        for round in [1, 2, 3]:
-            print(f"Round {round}:")
+    def play_round(self, HumanMove, RandomPlayerMove):
             
         move1 = self.player1.move(HumanMove)
         move2 = self.player2.move(RandomPlayerMove)
         print(f"Player 1: {move1}  Player 2: {move2}")
+        self.player1.learn(move1, move2)
+        self.player2.learn(move2, move1)
 
-        if beats(move1, move2):
-            print("HumanPlayer wins this round")
-            self.count_win += 1
+        if (move1 == move2):
+            print("it's a tie!")
             
-        elif beats(move2, move1):
-            print("RandomPlayer wins this round")
-            self.count_lose += 1   
-        else:
-            if move1 == move2:
-                    self.count_tie += 1
+        elif beats(move1, move2) is True:
+                self.player1_score += 1
+        elif beats(move2, move1) is True:
+                self.player2_score += 1
                     
-            print("It's Tie, Play again!")
-            print(f"Scores, HumanPlayer: {self.p1.score} RandomPlayer: {self.p2.score}")
-            print("Game over!")
+        print("It's Tie, Play again!")
+        print(f"Scores, HumanPlayer: {self.player1.score} RandomPlayer: {self.player2.score}")
+        print("Game over!")
+    
+    
+    def play_game(self, HumanMove, RandomPlayerMove):    
+        print("Game start!")
+        for round in range(3):
+            print(f"Round {round}:")
+            self.play_round(HumanMove, RandomPlayerMove)
+        print("Game over!")
 
 
 if __name__ == '__main__':
     game = Game(HumanPlayer(), RandomPlayer())
     game.play_game()
+
+   
+      
+        
