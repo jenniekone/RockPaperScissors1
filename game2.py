@@ -90,44 +90,36 @@ class Game:
     def __init__(self, HumanPlayer, RandomPlayer):
         self.player1 = HumanPlayer
         self.player2 = RandomPlayer
+        self.count_win = 0
+        self.count_lose = 0
+        self.count_tie = 0
 
-    def play_round(self, HumanMove, RandomPlayerMove):
+    def play_game(self, HumanMove, RandomPlayerMove):
+        
+        print("Game start!")
+        for round in [1, 2, 3]:
+            print(f"Round {round}:")
+            
         move1 = self.player1.move(HumanMove)
         move2 = self.player2.move(RandomPlayerMove)
         print(f"Player 1: {move1}  Player 2: {move2}")
-        self.player1.learn(move1, move2)
-        self.player2.learn(move2, move1)
-        
-        
-    def score(self, player1, player2):
-        
-        if beats(player1, player2):
+
+        if beats(move1, move2):
             print("HumanPlayer wins this round")
-            self.player1.score += 1
+            self.count_win += 1
             
-        elif beats(player2, player1):
+        elif beats(move2, move1):
             print("RandomPlayer wins this round")
-            self.player2.score += 1   
+            self.count_lose += 1   
         else:
+            if move1 == move2:
+                    self.count_tie += 1
+                    
             print("It's Tie, Play again!")
             print(f"Scores, HumanPlayer: {self.p1.score} RandomPlayer: {self.p2.score}")
-
-    def play_game(self, HumanMove, RandomPlayerMove):
-        print("Game start!")
-        for round in range(3):
-            print(f"Round {round}:")
-            self.play_round(HumanMove, RandomPlayerMove)
-        print("Game over!")
-
-        if self.player1.score > self.player2.score:
-            print ("HumanPlayer Wins the Game!")
-        elif self.player2.score > self.player1.score:
-            print ("RandomPlayer Wins the Game!")
-        else:
-            print("a TIE!?")          
+            print("Game over!")
 
 
 if __name__ == '__main__':
     game = Game(HumanPlayer(), RandomPlayer())
-    game.play_game(HumanMove, RandomPlayerMove)
-
+    game.play_game()
